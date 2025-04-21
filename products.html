@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Products | GlowCare Skincare</title>
+
+  <!-- Bootstrap 5 CDN -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"/>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;600&display=swap" rel="stylesheet"/>
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-light shadow-sm fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">GlowCare</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link active" href="productscategories.html">Products</a></li>
+          <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Products Section -->
+  <section class="products">
+    <div class="container">
+      <h2>Products in Category: <span id="category-name">Loading...</span></h2>
+      <div class="product-grid" id="product-list">
+        <!-- Products will be displayed here based on category -->
+      </div>
+    </div>
+  </section>
+
+  <script>
+    // Get the category from the URL query parameter
+    const urlParams = new URLSearchParams(window.location.search);
+    const category = urlParams.get('category');
+    
+    // Display the category name
+    document.getElementById('category-name').textContent = category.charAt(0).toUpperCase() + category.slice(1);
+  
+    // Function to fetch products from a "database" based on category
+    function fetchProducts(category) {
+      const products = {
+        moisturizer: [
+          { name: 'Hydrating Moisturizer', price: '$20', image: 'moisturizer1.jpeg' },
+          { name: 'Nourishing Cream', price: '$25', image: 'moisturizer2.jpeg' }
+        ],
+        serum: [
+          { name: 'Vitamin C Serum', price: '$30', image: 'serum1.jpeg' },
+          { name: 'Anti-Aging Serum', price: '$35', image: 'serum2.jpeg' }
+        ],
+        sunscreen: [
+          { name: 'SPF 50 Sunscreen', price: '$15', image: 'sunscreen1.jpeg' },
+          { name: 'Broad Spectrum SPF 30', price: '$20', image: 'sunscreen2.jpeg' }
+        ],
+        // Add more categories here...
+      };
+  
+      // Check if category exists in the products object
+      if (products[category]) {
+        const productList = products[category];
+        const productGrid = document.getElementById('product-list');
+        productGrid.innerHTML = ''; // Clear existing content
+  
+        // Loop through products and display them
+        productList.forEach(product => {
+          const productElement = document.createElement('div');
+          productElement.classList.add('product-item');
+          productElement.innerHTML = `
+            <img src="${product.image}" alt="${product.name}">
+            <h4>${product.name}</h4>
+            <p>${product.price}</p>
+          `;
+          productGrid.appendChild(productElement);
+        });
+      } else {
+        document.getElementById('product-list').innerHTML = `<p>No products available in this category.</p>`;
+      }
+    }
+  
+    // Call the function to fetch products for the current category
+    fetchProducts(category);
+  </script>
+  
+
+</body>
+</html>
